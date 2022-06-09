@@ -52,3 +52,15 @@ As seen above, both procedures seem to do very well on the test set, with both a
 ## Conclusion
 Although the RGB Model seemed to be better and more accurate for a larger dataset, in a real-world scenario, the grayscale model, which is significantly quicker and requires less data, would likely be used. 
 
+## Testing the Model
+For easy use and testing of both the RGB Model and the Grayscale model, I created a GUI using the tkinter package. There are three steps to using this GUI: 
+1. As seen in the top left, choose the type of model must be chosen (either "RGB Model" or "Grayscale Model").
+2. Upload an image after clicking the "Upload an Image" button. The selected image should pop up in the center of the GUI and a button that says "Classify Image" should appear.
+3. Click the "Classify Image" button, and the chosen model will predict the class of the traffic sign and display it above the image.
+
+<img src="/gui_imgs/gui1.png" width="325" />    <img src="/gui_imgs/gui2.png" width="325">    <img src="/gui_imgs/gui3.png" width="325"> 
+
+
+
+
+
