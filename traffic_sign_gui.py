@@ -111,7 +111,7 @@ R1.pack( anchor = W )
 R2 = Radiobutton(window, text="Grayscale Model", variable=var, value=1)
 R2.pack( anchor = W )
 
-upload=Button(window, text="Upload an image", command=upload_image, padx=10, pady=5)
+upload=Button(window, text="Upload an Image", command=upload_image, padx=10, pady=5)
 upload.configure(background='#364156', foreground='white', font=('dubai', 14, 'bold'))
 upload.pack(side=BOTTOM, pady=50)
 image.pack(side=BOTTOM, expand=True)
