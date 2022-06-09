@@ -4,9 +4,10 @@ from tkinter import filedialog
 import pandas as pd
 from tensorflow import keras
 from tensorflow.keras.utils import load_img, img_to_array
-from PIL import ImageTk, Image
+from PIL import ImageTk, Image, ImageOps
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 
 classes = { 
   1:'Speed limit (20km/h)',
@@ -56,7 +57,6 @@ classes = {
 
 def preprocessing(img):
   grayimg = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-  cv2.imshow('Test', grayimg)
   eqimg = cv2.equalizeHist(grayimg)
   eqimg = eqimg / 255
   return eqimg
@@ -71,13 +71,16 @@ var = IntVar()
 
 def classify(file_path):
   global label_packed
+  label.configure(text='Classifying...')
   img = load_img(file_path, target_size=(32, 32))
-  img_array = img_to_array(img)
+  img_array = img_to_array(img, dtype='uint8')
 
-  if var.get() == 1: img = preprocessing(img_array)
+  if var.get() == 1: 
+    img_array = preprocessing(img_array)
+    model = keras.models.load_model("./grayscale_models/with_padding.keras")
+  else: model = keras.models.load_model("./rgb_models/with_relu_adam.keras")
+
   img_array = np.expand_dims(img_array, axis=0)
-
-  model = keras.models.load_model("./rgb_models/with_relu_adam.keras")
   pred = model.predict(img_array)
   sign = np.argmax(pred[0])
   print(sign)
@@ -92,12 +95,13 @@ def upload_image():
   try:
     file_path = filedialog.askopenfilename()
     uploaded = Image.open(file_path)
+    if var.get() == 1: uploaded = ImageOps.grayscale(uploaded)
     uploaded.thumbnail(((window.winfo_width()), (window.winfo_height())))
     resized_image= uploaded.resize((150,150), Image.LANCZOS)
     im = ImageTk.PhotoImage(resized_image)
     image.configure(image=im)
     image.image = im
-    label.configure(text='')
+    label.configure(text='Image Ready To Be Classified')
     show_classify_button(file_path)
   except:
     pass
